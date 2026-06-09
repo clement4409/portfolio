@@ -124,8 +124,8 @@ export function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav: liste condensée (uniquement sur très grands écrans ; sinon le menu burger prend le relais) */}
-        <div className="hidden min-w-0 items-center gap-0.5 2xl:flex">
+        {/* Desktop nav: liste condensée (PC) ; défile si trop serré, sans pousser les contrôles. */}
+        <div className="hidden min-w-0 items-center gap-0.5 overflow-x-auto [scrollbar-width:none] xl:flex [&::-webkit-scrollbar]:hidden">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -133,7 +133,7 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative rounded-full px-2.5 py-2 text-sm font-medium transition-colors focus-ring",
+                  "relative shrink-0 rounded-full px-2 py-2 text-[13px] font-medium transition-colors focus-ring",
                   active
                     ? "text-blue-500"
                     : onHero
@@ -196,8 +196,8 @@ export function Navbar() {
             className="overflow-hidden border-t border-blue-500/10 bg-background"
           >
             <div className="container max-h-[75vh] space-y-6 overflow-y-auto py-5">
-              {/* Navigation des pages — masquée quand la barre les affiche déjà (2xl+) */}
-              <div className="2xl:hidden">
+              {/* Navigation des pages — masquée quand la barre les affiche déjà (xl+) */}
+              <div className="xl:hidden">
                 <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Navigation</p>
                 <ul className="grid gap-1">
                   {navItems.map((item) => {
