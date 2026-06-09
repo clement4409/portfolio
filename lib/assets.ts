@@ -1,4 +1,5 @@
 // Centralised catalogue of bakery assets available in /public/assets
+import { BASE_PATH } from "./base-path";
 
 export type Asset = {
   src: string;
@@ -6,7 +7,9 @@ export type Asset = {
   category: "Pains" | "Viennoiseries" | "Patisseries" | "Boutique" | "Salé";
 };
 
-const img = (file: string) => `/assets/images/${file}`;
+// Préfixé par le basePath (GitHub Pages) : next/image ne l'ajoute pas en export statique.
+const img = (file: string) => `${BASE_PATH}/assets/images/${file}`;
+const vid = (file: string) => `${BASE_PATH}/assets/videos/${file}`;
 
 export const assets: Asset[] = [
   { src: img("baguette.jpg"), alt: "Baguette tradition croustillante", category: "Pains" },
@@ -29,11 +32,11 @@ export const assets: Asset[] = [
 ];
 
 export const videos = {
-  ambiance: "/assets/videos/ambiance.mp4",
-  ambianceSlow: "/assets/videos/ambiance-slow.mp4",
-  maisonPassion: "/assets/videos/maison-passion.mp4",
-  maisonFondee: "/assets/videos/maison-fondee.mp4",
-  texte: "/assets/videos/ambiance-slow.mp4",
+  ambiance: vid("ambiance.mp4"),
+  ambianceSlow: vid("ambiance-slow.mp4"),
+  maisonPassion: vid("maison-passion.mp4"),
+  maisonFondee: vid("maison-fondee.mp4"),
+  texte: vid("ambiance-slow.mp4"),
 };
 
 export const byCategory = (cat: Asset["category"]) =>

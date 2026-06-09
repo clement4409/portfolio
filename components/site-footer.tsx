@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Facebook, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { navItems } from "@/lib/nav";
+import { media } from "@/lib/base-path";
 
 export function SiteFooter() {
   return (
@@ -16,7 +17,7 @@ export function SiteFooter() {
       <div className="container grid gap-12 pt-20 pb-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link href="/" className="inline-flex items-center focus-ring rounded-lg" aria-label="A&C Agency — accueil">
-            <Image src="/logo.png" alt="A&C Agency" width={160} height={56} className="h-12 w-auto" />
+            <Image src={media("/logo.png")} alt="A&C Agency" width={160} height={56} className="h-12 w-auto" />
           </Link>
           <p className="mt-4 max-w-xs text-sm text-slate-400">
             Agence digitale fondée par Clément &amp; Adam. Nous rendons le numérique
