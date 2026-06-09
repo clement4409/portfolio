@@ -1,0 +1,15 @@
+/node_modules
+/.next
+/out
+/build
+
+# Outils locaux (skills Claude Code, réglages locaux) — hors du site
+/.claude
+"/notre entreprise"
+.DS_Store
+*.pem
+*.tsbuildinfo
+*.bak
+.env*.local
+next-env.d.ts
+/images

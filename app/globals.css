@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;       /* slate-50 */
+    --foreground: 222 47% 11%;       /* slate-900 */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;            /* slate-100 */
+    --muted-foreground: 215 16% 47%; /* slate-500 */
+    --border: 214 32% 91%;           /* slate-200 */
+    --primary: 221 83% 53%;          /* blue-600 #2563EB */
+    --primary-foreground: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 222 47% 11%;        /* slate-900 */
+    --foreground: 210 40% 96%;
+    --card: 217 33% 17%;             /* slate-800 */
+    --card-foreground: 210 40% 96%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%; /* slate-400 */
+    --border: 217 33% 25%;
+    --primary: 217 91% 60%;          /* blue-500 #3B82F6 */
+    --primary-foreground: 222 47% 11%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .bg-grain {
+    background-image: radial-gradient(hsl(var(--primary) / 0.05) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+  /* custom focus ring */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
