@@ -71,17 +71,17 @@ export default function FavorisPage() {
             return (
               <li
                 key={f.id}
-                className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:shadow-md"
+                className="flex min-w-0 items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:shadow-md"
               >
                 <Link href={f.href} className="group flex min-w-0 flex-1 items-center gap-4 focus-ring rounded">
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-blue-600/10 text-blue-600">
                     <Heart className="h-4 w-4 fill-blue-600" />
                   </span>
-                  <span className="min-w-0">
+                  <span className="block min-w-0 flex-1">
                     <span className="block truncate font-semibold group-hover:text-blue-600">{f.label}</span>
-                    <span className="block text-sm text-muted-foreground">{pageLabels[page] ?? page}</span>
+                    <span className="block truncate text-sm text-muted-foreground">{pageLabels[page] ?? page}</span>
                   </span>
-                  <ArrowRight className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
                 </Link>
                 <button
                   type="button"

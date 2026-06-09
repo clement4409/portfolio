@@ -266,7 +266,7 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} className="hidden lg:block">
             <div className="relative flex aspect-square flex-col overflow-hidden rounded-3xl bg-slate-950 p-6 text-white shadow-xl ring-1 ring-white/10 md:p-8">
               {/* lueur bleue centrale */}
               <div className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-600/25 blur-3xl" />

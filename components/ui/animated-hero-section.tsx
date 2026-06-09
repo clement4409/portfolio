@@ -239,7 +239,9 @@ export function AnimatedHero() {
       const spaceBetweenLines = 2.5 * adjustedLargePixelSize
       const totalTextHeight = largeTextHeight + spaceBetweenLines + smallTextHeight
 
-      let startY = (canvas.height - totalTextHeight) / 2
+      // Remonte le wordmark (surtout en mobile) pour ne pas chevaucher le texte du bas.
+      const verticalBias = canvas.width < 640 ? 0.22 : 0.1
+      let startY = (canvas.height - totalTextHeight) / 2 - canvas.height * verticalBias
 
       words.forEach((word, wordIndex) => {
         const pixelSize = wordIndex === 0 ? adjustedLargePixelSize : adjustedSmallPixelSize

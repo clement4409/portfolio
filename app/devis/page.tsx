@@ -93,7 +93,7 @@ export default function DevisPage() {
 
       <div className="container grid gap-10 pb-24 lg:grid-cols-[1.4fr_1fr] lg:items-start">
         {/* COLONNE PRINCIPALE */}
-        <div className="space-y-12">
+        <div className="min-w-0 space-y-12">
           {/* 1. Prestations */}
           <section>
             <h2 className="flex items-center gap-3 text-2xl font-bold">

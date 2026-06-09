@@ -144,7 +144,7 @@ export function Carousel3D() {
   const items = assets.slice(0, 5);
   const [i, setI] = useState(0);
   return (
-    <div className="relative h-80 [perspective:1200px]">
+    <div className="relative h-80 overflow-hidden [perspective:1200px]">
       <div className="absolute inset-0 grid place-items-center [transform-style:preserve-3d]">
         {items.map((item, idx) => {
           const offset = ((idx - i + items.length) % items.length);

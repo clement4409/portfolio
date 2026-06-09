@@ -111,7 +111,7 @@ export function Navbar() {
       <nav className="container flex h-16 items-center justify-between gap-4" aria-label="Navigation principale">
         <Link
           href="/"
-          className="mr-8 flex items-center rounded-lg focus-ring xl:mr-14"
+          className="mr-4 flex items-center rounded-lg focus-ring"
           aria-label="A&C Agency — accueil"
         >
           <span className="inline-flex shrink-0 items-center rounded-lg bg-white p-0.5 shadow-sm ring-1 ring-black/5">
@@ -124,8 +124,8 @@ export function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav: condensed list */}
-        <div className="hidden items-center gap-0.5 xl:flex">
+        {/* Desktop nav: liste condensée (uniquement sur très grands écrans ; sinon le menu burger prend le relais) */}
+        <div className="hidden min-w-0 items-center gap-0.5 2xl:flex">
           {navItems.map((item) => {
             const active = pathname === item.href;
             return (
@@ -133,7 +133,7 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative rounded-full px-3 py-2 text-sm font-medium transition-colors focus-ring",
+                  "relative rounded-full px-2.5 py-2 text-sm font-medium transition-colors focus-ring",
                   active
                     ? "text-blue-500"
                     : onHero
@@ -154,7 +154,7 @@ export function Navbar() {
           })}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <FavoritesLink onHero={onHero} />
           <button
             className={cn(
@@ -196,8 +196,8 @@ export function Navbar() {
             className="overflow-hidden border-t border-blue-500/10 bg-background"
           >
             <div className="container max-h-[75vh] space-y-6 overflow-y-auto py-5">
-              {/* Navigation des pages — uniquement sur petits écrans */}
-              <div className="xl:hidden">
+              {/* Navigation des pages — masquée quand la barre les affiche déjà (2xl+) */}
+              <div className="2xl:hidden">
                 <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Navigation</p>
                 <ul className="grid gap-1">
                   {navItems.map((item) => {
