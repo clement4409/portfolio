@@ -41,7 +41,7 @@ function FavoritesLink({ onHero }: { onHero: boolean }) {
       href="/favoris"
       aria-label={`Favoris${count ? ` (${count})` : ""}`}
       className={cn(
-        "relative grid h-10 w-10 place-items-center rounded-full transition-colors focus-ring",
+        "relative grid h-9 w-9 place-items-center rounded-full transition-colors focus-ring",
         onHero ? "text-slate-100 hover:bg-white/10" : "hover:bg-muted"
       )}
     >
@@ -136,7 +136,7 @@ export function Navbar() {
           : "bg-transparent"
       )}
     >
-      <nav className="container flex h-16 items-center justify-between gap-4" aria-label="Navigation principale">
+      <nav className="container flex h-14 items-center justify-between gap-3" aria-label="Navigation principale">
         <Link
           href="/"
           className="mr-4 flex items-center rounded-lg focus-ring"
@@ -147,7 +147,7 @@ export function Navbar() {
             <img
               src={media("/logo-dark.jpg")}
               alt="A&C Agency"
-              className="h-10 w-auto rounded-md md:h-11"
+              className="h-8 w-auto rounded-md md:h-9"
             />
           </span>
         </Link>
@@ -157,7 +157,7 @@ export function Navbar() {
           <Link
             href="/"
             className={cn(
-              "relative shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              "relative shrink-0 whitespace-nowrap rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors focus-ring",
               pathname === "/"
                 ? "text-blue-500"
                 : onHero
@@ -178,7 +178,7 @@ export function Navbar() {
             aria-expanded={showFeatures}
             aria-haspopup="true"
             className={cn(
-              "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors focus-ring",
               showFeatures || featureItems.some((f) => f.href === pathname)
                 ? "text-blue-500"
                 : onHero
@@ -199,12 +199,12 @@ export function Navbar() {
                 transition={{ duration: 0.18 }}
                 role="menu"
                 aria-label={FEATURES_TITLE}
-                className="absolute left-0 top-full z-50 mt-3 w-[680px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-blue-500/10 bg-background/95 p-2 shadow-xl shadow-blue-950/10 backdrop-blur-md"
+                className="absolute left-0 top-full z-50 mt-2 max-h-[calc(100vh-5rem)] w-[640px] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-2xl border border-blue-500/10 bg-background/95 p-2 shadow-xl shadow-blue-950/10 backdrop-blur-md"
               >
-                <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                <p className="px-3 pb-1 pt-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   Tout ce que nous pouvons créer pour votre site — cliquez pour voir des exemples réels
                 </p>
-                <ul className="grid gap-1 p-1 sm:grid-cols-2">
+                <ul className="grid gap-0.5 p-1 sm:grid-cols-2">
                   {featureItems.map((item) => {
                     const Icon = (item.icon && iconMap[item.icon]) || Sparkles;
                     const active = pathname === item.href;
@@ -214,19 +214,19 @@ export function Navbar() {
                           href={item.href}
                           role="menuitem"
                           className={cn(
-                            "group flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors focus-ring",
+                            "group flex items-start gap-2.5 rounded-xl px-2.5 py-1.5 transition-colors focus-ring",
                             active ? "bg-blue-500/10" : "hover:bg-muted"
                           )}
                         >
                           <span
                             className={cn(
-                              "mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg transition-colors",
+                              "mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg transition-colors",
                               active
                                 ? "bg-blue-600 text-white"
                                 : "bg-blue-600/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white"
                             )}
                           >
-                            <Icon className="h-[18px] w-[18px]" />
+                            <Icon className="h-4 w-4" />
                           </span>
                           <span className="min-w-0">
                             <span className={cn("block text-sm font-semibold", active ? "text-blue-500" : "text-foreground")}>
@@ -241,11 +241,11 @@ export function Navbar() {
                 </ul>
 
                 {/* Encore plus de choix — ressources externes */}
-                <div className="mt-1 border-t border-border px-1 pt-3">
-                  <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                <div className="mt-1 border-t border-border px-1 pt-2">
+                  <p className="px-2 pb-0.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     Encore plus de choix
                   </p>
-                  <ul className="grid gap-1 p-1 sm:grid-cols-2">
+                  <ul className="grid gap-0.5 p-1 sm:grid-cols-2">
                     {ressources.map((r) => (
                       <li key={r.label}>
                         <a
@@ -253,10 +253,10 @@ export function Navbar() {
                           target="_blank"
                           rel="noopener noreferrer"
                           role="menuitem"
-                          className="flex flex-col rounded-xl px-3 py-2 transition-colors hover:bg-muted focus-ring"
+                          className="flex items-baseline gap-2 rounded-lg px-2.5 py-1.5 transition-colors hover:bg-muted focus-ring"
                         >
-                          <span className="text-sm font-semibold">{r.label}</span>
-                          <span className="text-xs text-muted-foreground">{r.desc}</span>
+                          <span className="shrink-0 text-sm font-semibold">{r.label}</span>
+                          <span className="truncate text-xs text-muted-foreground">{r.desc}</span>
                         </a>
                       </li>
                     ))}
@@ -276,7 +276,7 @@ export function Navbar() {
               aria-expanded={showProtoDesktop}
               aria-haspopup="true"
               className={cn(
-                "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+                "inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors focus-ring",
                 showProtoDesktop
                   ? "text-blue-500"
                   : onHero
@@ -324,7 +324,7 @@ export function Navbar() {
           <Link
             href="/shooting"
             className={cn(
-              "shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              "shrink-0 whitespace-nowrap rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors focus-ring",
               pathname === "/shooting"
                 ? "text-blue-500"
                 : onHero
@@ -337,7 +337,7 @@ export function Navbar() {
           <Link
             href="/#contact"
             className={cn(
-              "shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              "shrink-0 whitespace-nowrap rounded-full px-2.5 py-1.5 text-sm font-medium transition-colors focus-ring",
               onHero ? "text-slate-200 hover:text-white" : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -345,7 +345,7 @@ export function Navbar() {
           </Link>
           <Link
             href="/devis"
-            className="ml-1 inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-blue-600 px-4 py-2 text-base font-semibold text-white shadow-sm shadow-blue-600/20 transition-colors hover:bg-blue-700 focus-ring"
+            className="ml-1 inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-blue-600 px-3.5 py-1.5 text-sm font-semibold text-white shadow-sm shadow-blue-600/20 transition-colors hover:bg-blue-700 focus-ring"
           >
             Demander un devis
           </Link>
@@ -355,7 +355,7 @@ export function Navbar() {
           <FavoritesLink onHero={onHero} />
           <button
             className={cn(
-              "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold shadow-sm transition-colors focus-ring xl:hidden",
+              "inline-flex h-9 items-center gap-2 rounded-full border px-3.5 text-sm font-semibold shadow-sm transition-colors focus-ring xl:hidden",
               open
                 ? "border-blue-600 bg-blue-600 text-white"
                 : onHero
