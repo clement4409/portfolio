@@ -4,9 +4,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X, Heart, ChevronDown } from "lucide-react";
-import { navItems } from "@/lib/nav";
+import {
+  Menu, X, Heart, ChevronDown, Home, Sparkles, Images, Play,
+  GalleryHorizontal, Wand2, ClipboardList, LayoutGrid, Star,
+  Store, PanelBottom, type LucideIcon,
+} from "lucide-react";
+import { featureItems } from "@/lib/nav";
 import { cn } from "@/lib/utils";
+
+// Associe le nom d'icône (défini dans lib/nav) au composant Lucide.
+const iconMap: Record<string, LucideIcon> = {
+  home: Home,
+  sparkles: Sparkles,
+  images: Images,
+  play: Play,
+  "gallery-horizontal": GalleryHorizontal,
+  wand: Wand2,
+  "clipboard-list": ClipboardList,
+  menu: Menu,
+  "layout-grid": LayoutGrid,
+  star: Star,
+  store: Store,
+  "panel-bottom": PanelBottom,
+};
+
+const FEATURES_TITLE = "Ce que l'on peut créer pour vous";
 import { ThemeToggle } from "./theme-toggle";
 import { useFavorites } from "./favorites";
 import { media } from "@/lib/base-path";
@@ -63,6 +85,8 @@ export function Navbar() {
   const favCount = favorites.length;
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [showFeatures, setShowFeatures] = useState(false);
+  const [showProtoDesktop, setShowProtoDesktop] = useState(false);
   const [showProto, setShowProto] = useState(false);
   const [showRes, setShowRes] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -74,7 +98,11 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+    setShowFeatures(false);
+    setShowProtoDesktop(false);
+  }, [pathname]);
 
   // Ferme le menu quand on clique ailleurs ou qu'on appuie sur Échap.
   useEffect(() => {
@@ -124,41 +152,187 @@ export function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop nav: liste condensée (PC) ; défile si trop serré, sans pousser les contrôles. */}
-        <div className="hidden min-w-0 items-center gap-0.5 overflow-x-auto [scrollbar-width:none] xl:flex [&::-webkit-scrollbar]:hidden">
-          {navItems.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "relative shrink-0 rounded-full px-2 py-2 text-[13px] font-medium transition-colors focus-ring",
-                  active
-                    ? "text-blue-500"
-                    : onHero
-                      ? "text-slate-200 hover:text-white"
-                      : "text-muted-foreground hover:text-foreground"
-                )}
-                aria-current={active ? "page" : undefined}
+        {/* Desktop nav : Accueil + fonctionnalités + prototypes + raccourcis. */}
+        <div className="hidden min-w-0 items-center gap-0.5 xl:flex">
+          <Link
+            href="/"
+            className={cn(
+              "relative shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              pathname === "/"
+                ? "text-blue-500"
+                : onHero
+                  ? "text-slate-200 hover:text-white"
+                  : "text-muted-foreground hover:text-foreground"
+            )}
+            aria-current={pathname === "/" ? "page" : undefined}
+          >
+            Accueil
+          </Link>
+
+          {/* Méga-menu des fonctionnalités */}
+          <div className="relative" onMouseLeave={() => setShowFeatures(false)}>
+          <button
+            type="button"
+            onClick={() => { setShowFeatures((v) => !v); setShowProtoDesktop(false); }}
+            onMouseEnter={() => { setShowFeatures(true); setShowProtoDesktop(false); }}
+            aria-expanded={showFeatures}
+            aria-haspopup="true"
+            className={cn(
+              "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              showFeatures || featureItems.some((f) => f.href === pathname)
+                ? "text-blue-500"
+                : onHero
+                  ? "text-slate-200 hover:text-white"
+                  : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            {FEATURES_TITLE}
+            <ChevronDown className={cn("h-4 w-4 transition-transform", showFeatures && "rotate-180")} />
+          </button>
+
+          <AnimatePresence>
+            {showFeatures && (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.18 }}
+                role="menu"
+                aria-label={FEATURES_TITLE}
+                className="absolute left-0 top-full z-50 mt-3 w-[680px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-blue-500/10 bg-background/95 p-2 shadow-xl shadow-blue-950/10 backdrop-blur-md"
               >
-                {item.label}
-                {active && (
-                  <motion.span
-                    layoutId="nav-active"
-                    className="absolute inset-x-2 -bottom-0.5 h-0.5 rounded-full bg-blue-500"
-                  />
-                )}
-              </Link>
-            );
-          })}
+                <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Tout ce que nous pouvons créer pour votre site — cliquez pour voir des exemples réels
+                </p>
+                <ul className="grid gap-1 p-1 sm:grid-cols-2">
+                  {featureItems.map((item) => {
+                    const Icon = (item.icon && iconMap[item.icon]) || Sparkles;
+                    const active = pathname === item.href;
+                    return (
+                      <li key={item.href}>
+                        <Link
+                          href={item.href}
+                          role="menuitem"
+                          className={cn(
+                            "group flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors focus-ring",
+                            active ? "bg-blue-500/10" : "hover:bg-muted"
+                          )}
+                        >
+                          <span
+                            className={cn(
+                              "mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg transition-colors",
+                              active
+                                ? "bg-blue-600 text-white"
+                                : "bg-blue-600/10 text-blue-600 group-hover:bg-blue-600 group-hover:text-white"
+                            )}
+                          >
+                            <Icon className="h-[18px] w-[18px]" />
+                          </span>
+                          <span className="min-w-0">
+                            <span className={cn("block text-sm font-semibold", active ? "text-blue-500" : "text-foreground")}>
+                              {item.label}
+                            </span>
+                            <span className="block text-xs text-muted-foreground">{item.desc}</span>
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          </div>
+
+          {/* Menu déroulant : nos prototypes */}
+          <div className="relative" onMouseLeave={() => setShowProtoDesktop(false)}>
+            <button
+              type="button"
+              onClick={() => { setShowProtoDesktop((v) => !v); setShowFeatures(false); }}
+              onMouseEnter={() => { setShowProtoDesktop(true); setShowFeatures(false); }}
+              aria-expanded={showProtoDesktop}
+              aria-haspopup="true"
+              className={cn(
+                "inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+                showProtoDesktop
+                  ? "text-blue-500"
+                  : onHero
+                    ? "text-slate-200 hover:text-white"
+                    : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              Nos prototypes
+              <ChevronDown className={cn("h-4 w-4 transition-transform", showProtoDesktop && "rotate-180")} />
+            </button>
+
+            <AnimatePresence>
+              {showProtoDesktop && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.18 }}
+                  role="menu"
+                  aria-label="Nos prototypes"
+                  className="absolute left-0 top-full z-50 mt-3 w-72 overflow-hidden rounded-2xl border border-blue-500/10 bg-background/95 p-2 shadow-xl shadow-blue-950/10 backdrop-blur-md"
+                >
+                  <ul className="grid gap-1">
+                    {prototypes.map((p) => (
+                      <li key={p.label}>
+                        <a
+                          href={p.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          role="menuitem"
+                          className="flex flex-col rounded-xl px-3 py-2.5 transition-colors hover:bg-muted focus-ring"
+                        >
+                          <span className="text-sm font-semibold">{p.label}</span>
+                          <span className="text-xs text-muted-foreground">{p.desc}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Raccourcis directs */}
+          <Link
+            href="/shooting"
+            className={cn(
+              "shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              pathname === "/shooting"
+                ? "text-blue-500"
+                : onHero
+                  ? "text-slate-200 hover:text-white"
+                  : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            Shooting photo
+          </Link>
+          <Link
+            href="/#contact"
+            className={cn(
+              "shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-base font-medium transition-colors focus-ring",
+              onHero ? "text-slate-200 hover:text-white" : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            Nous contacter
+          </Link>
+          <Link
+            href="/devis"
+            className="ml-1 inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-blue-600 px-4 py-2 text-base font-semibold text-white shadow-sm shadow-blue-600/20 transition-colors hover:bg-blue-700 focus-ring"
+          >
+            Demander un devis
+          </Link>
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
           <FavoritesLink onHero={onHero} />
           <button
             className={cn(
-              "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold shadow-sm transition-colors focus-ring",
+              "inline-flex h-11 items-center gap-2 rounded-full border px-4 text-sm font-semibold shadow-sm transition-colors focus-ring xl:hidden",
               open
                 ? "border-blue-600 bg-blue-600 text-white"
                 : onHero
@@ -198,21 +372,47 @@ export function Navbar() {
             <div className="container max-h-[75vh] space-y-6 overflow-y-auto py-5">
               {/* Navigation des pages — masquée quand la barre les affiche déjà (xl+) */}
               <div className="xl:hidden">
-                <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Navigation</p>
+                <Link
+                  href="/"
+                  className={cn(
+                    "mb-3 flex items-center gap-3 rounded-xl px-4 py-3 transition-colors focus-ring",
+                    pathname === "/" ? "bg-blue-500/10 text-blue-500" : "hover:bg-muted"
+                  )}
+                >
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-blue-600/10 text-blue-600">
+                    <Home className="h-[18px] w-[18px]" />
+                  </span>
+                  <span className="font-medium">Accueil</span>
+                </Link>
+
+                <p className="px-1 pb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  {FEATURES_TITLE}
+                </p>
                 <ul className="grid gap-1">
-                  {navItems.map((item) => {
+                  {featureItems.map((item) => {
+                    const Icon = (item.icon && iconMap[item.icon]) || Sparkles;
                     const active = pathname === item.href;
                     return (
                       <li key={item.href}>
                         <Link
                           href={item.href}
                           className={cn(
-                            "flex flex-col rounded-xl px-4 py-3 transition-colors focus-ring",
-                            active ? "bg-blue-500/10 text-blue-500" : "hover:bg-muted"
+                            "flex items-start gap-3 rounded-xl px-4 py-3 transition-colors focus-ring",
+                            active ? "bg-blue-500/10" : "hover:bg-muted"
                           )}
                         >
-                          <span className="font-medium">{item.label}</span>
-                          <span className="text-xs text-muted-foreground">{item.desc}</span>
+                          <span
+                            className={cn(
+                              "mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-lg",
+                              active ? "bg-blue-600 text-white" : "bg-blue-600/10 text-blue-600"
+                            )}
+                          >
+                            <Icon className="h-[18px] w-[18px]" />
+                          </span>
+                          <span className="min-w-0">
+                            <span className={cn("block font-medium", active && "text-blue-500")}>{item.label}</span>
+                            <span className="block text-xs text-muted-foreground">{item.desc}</span>
+                          </span>
                         </Link>
                       </li>
                     );

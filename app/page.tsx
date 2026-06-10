@@ -72,11 +72,11 @@ const packs = [
 ];
 
 const hosting = [
-  { icon: Server, title: "Hébergement rapide & fiable", desc: "Vos sites tournent sur l'infrastructure Hostinger, performante et toujours en ligne." },
-  { icon: RefreshCw, title: "Mises à jour régulières", desc: "On garde votre site à jour et fonctionnel, sans que vous ayez à y penser." },
-  { icon: ShieldCheck, title: "Sécurité & certificat SSL", desc: "Connexion HTTPS, surveillance et protection contre les menaces courantes." },
-  { icon: Database, title: "Sauvegardes automatiques", desc: "Vos données sont sauvegardées et récupérables en cas de souci." },
-  { icon: LifeBuoy, title: "Support réactif", desc: "Une question ou une modification ? On s'en occupe rapidement." },
+  { icon: Server, title: "Hébergement rapide & fiable", tag: "99,9 % en ligne", desc: "Vos sites tournent sur l'infrastructure Hostinger, performante et toujours en ligne." },
+  { icon: RefreshCw, title: "Mises à jour régulières", tag: "Automatique", desc: "On garde votre site à jour et fonctionnel, sans que vous ayez à y penser." },
+  { icon: ShieldCheck, title: "Sécurité & certificat SSL", tag: "HTTPS", desc: "Connexion HTTPS, surveillance et protection contre les menaces courantes." },
+  { icon: Database, title: "Sauvegardes automatiques", tag: "Quotidien", desc: "Vos données sont sauvegardées et récupérables en cas de souci." },
+  { icon: LifeBuoy, title: "Support réactif", tag: "Inclus", desc: "Une question ou une modification ? On s'en occupe rapidement." },
 ];
 
 export default function Home() {
@@ -163,7 +163,7 @@ export default function Home() {
 
       {/* HÉBERGEMENT GÉRÉ */}
       <section className="border-y border-border bg-slate-50 py-24 dark:bg-slate-900/40">
-        <div className="container grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div className="container grid items-center gap-x-16 gap-y-12 lg:grid-cols-[1fr_1.05fr]">
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full bg-blue-600/10 px-4 py-1.5 text-sm font-medium text-blue-600">
               <Server className="h-4 w-4" /> Hébergement &amp; maintenance
@@ -185,31 +185,40 @@ export default function Home() {
               modifications. Vous n'avez rien d'autre à faire que votre métier.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-end gap-x-6 gap-y-3">
-              <div>
-                <span className="font-serif text-5xl font-bold tabular-nums text-blue-600">≈ 20 €</span>
-                <span className="ml-1 text-muted-foreground">/ mois</span>
-                <p className="mt-1 text-sm text-muted-foreground">Tout compris, sans engagement.</p>
-              </div>
+            <div className="mt-8 flex items-baseline gap-2">
+              <span className="font-serif text-5xl font-bold tabular-nums text-blue-600">≈ 20 €</span>
+              <span className="text-muted-foreground">/ mois, tout compris, sans engagement.</span>
+            </div>
+
+            <div className="mt-7 flex flex-wrap gap-3">
               <Button asChild size="lg" className="bg-blue-600 text-white hover:bg-blue-500">
                 <Link href="/devis">
                   Créer un devis <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
+              <Button asChild size="lg" variant="outline">
+                <a href="https://www.hostinger.com/" target="_blank" rel="noopener noreferrer">
+                  <Server className="h-4 w-4" /> Voir Hostinger
+                </a>
+              </Button>
             </div>
           </Reveal>
 
+          {/* Garanties — liste claire, sans encadré */}
           <Reveal delay={0.1}>
-            <ul className="space-y-5">
+            <ul className="divide-y divide-border">
               {hosting.map((h) => (
-                <li key={h.title} className="flex gap-4">
+                <li key={h.title} className="flex items-center gap-4 py-4 first:pt-0">
                   <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-blue-600/10 text-blue-600">
                     <h.icon className="h-5 w-5" />
                   </span>
-                  <div>
+                  <div className="min-w-0 flex-1">
                     <h3 className="font-semibold">{h.title}</h3>
-                    <p className="mt-0.5 leading-relaxed text-muted-foreground">{h.desc}</p>
+                    <p className="mt-0.5 leading-snug text-muted-foreground">{h.desc}</p>
                   </div>
+                  <span className="hidden shrink-0 rounded-full bg-blue-600/10 px-2.5 py-1 text-xs font-medium text-blue-600 sm:inline">
+                    {h.tag}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -337,7 +346,7 @@ export default function Home() {
       </section>
 
       {/* NOS FORMULES */}
-      <section className="container py-24">
+      <section id="offres" className="scroll-mt-24 container py-24">
         <Reveal className="text-center">
           <h2 className="text-3xl font-bold text-balance md:text-5xl">Nos formules</h2>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
