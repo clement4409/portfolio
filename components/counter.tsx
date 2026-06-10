@@ -20,6 +20,17 @@ export function Counter({
 
   useEffect(() => {
     if (!inView) return;
+
+    // Mouvement réduit (fréquent sur mobile) : on affiche la valeur finale
+    // tout de suite, sans animation chiffrée.
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setValue(to);
+      return;
+    }
+
     let raf = 0;
     const start = performance.now();
     const tick = (now: number) => {
@@ -29,7 +40,12 @@ export function Counter({
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    // Filet de sécurité : quoi qu'il arrive, la valeur finale est atteinte.
+    const safety = window.setTimeout(() => setValue(to), duration + 150);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(safety);
+    };
   }, [inView, to, duration]);
 
   return (

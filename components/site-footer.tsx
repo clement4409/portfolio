@@ -60,7 +60,12 @@ export function SiteFooter() {
           <h3 className="font-serif text-lg">Contact</h3>
           <ul className="mt-4 space-y-3 text-sm text-slate-400">
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-blue-400" /> France</li>
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-blue-400" /> Sur demande</li>
+            <li className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-blue-400" />
+              <a href="tel:+33675272688" className="transition-colors hover:text-blue-400 focus-ring rounded">
+                06 75 27 26 88
+              </a>
+            </li>
             <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-blue-400" /> acsitesweb@gmail.com</li>
           </ul>
         </div>

@@ -239,6 +239,29 @@ export function Navbar() {
                     );
                   })}
                 </ul>
+
+                {/* Encore plus de choix — ressources externes */}
+                <div className="mt-1 border-t border-border px-1 pt-3">
+                  <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Encore plus de choix
+                  </p>
+                  <ul className="grid gap-1 p-1 sm:grid-cols-2">
+                    {ressources.map((r) => (
+                      <li key={r.label}>
+                        <a
+                          href={r.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          role="menuitem"
+                          className="flex flex-col rounded-xl px-3 py-2 transition-colors hover:bg-muted focus-ring"
+                        >
+                          <span className="text-sm font-semibold">{r.label}</span>
+                          <span className="text-xs text-muted-foreground">{r.desc}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

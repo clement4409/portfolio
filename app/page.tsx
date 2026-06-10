@@ -26,7 +26,7 @@ const reasons = [
 ];
 
 const stats = [
-  { to: 599, prefix: "", suffix: " €", label: "Site web, à partir de" },
+  { to: 299, prefix: "", suffix: " €", label: "Site web, à partir de" },
   { to: 3, suffix: "", label: "Formules au choix" },
   { to: 20, prefix: "≈ ", suffix: " €/mois", label: "Hébergement géré, tout compris" },
   { to: 100, suffix: "%", label: "Responsive, tous écrans" },
@@ -185,9 +185,12 @@ export default function Home() {
               modifications. Vous n'avez rien d'autre à faire que votre métier.
             </p>
 
-            <div className="mt-8 flex items-baseline gap-2">
-              <span className="font-serif text-5xl font-bold tabular-nums text-blue-600">≈ 20 €</span>
-              <span className="text-muted-foreground">/ mois, tout compris, sans engagement.</span>
+            <div className="mt-8">
+              <p className="flex items-baseline gap-1.5 whitespace-nowrap">
+                <span className="font-serif text-5xl font-bold tabular-nums text-blue-600">≈ 20 €</span>
+                <span className="text-lg text-muted-foreground">/ mois</span>
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">Tout compris, sans engagement.</p>
             </div>
 
             <div className="mt-7 flex flex-wrap gap-3">
