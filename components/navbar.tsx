@@ -90,6 +90,26 @@ export function Navbar() {
   const [showProto, setShowProto] = useState(false);
   const [showRes, setShowRes] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const protoTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openProto = () => {
+    if (protoTimer.current) clearTimeout(protoTimer.current);
+    setShowProtoDesktop(true);
+    setShowFeatures(false);
+  };
+  const closeProtoSoon = () => {
+    if (protoTimer.current) clearTimeout(protoTimer.current);
+    protoTimer.current = setTimeout(() => setShowProtoDesktop(false), 320);
+  };
+  const featTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openFeatures = () => {
+    if (featTimer.current) clearTimeout(featTimer.current);
+    setShowFeatures(true);
+    setShowProtoDesktop(false);
+  };
+  const closeFeaturesSoon = () => {
+    if (featTimer.current) clearTimeout(featTimer.current);
+    featTimer.current = setTimeout(() => setShowFeatures(false), 320);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -170,11 +190,11 @@ export function Navbar() {
           </Link>
 
           {/* Méga-menu des fonctionnalités */}
-          <div className="relative" onMouseLeave={() => setShowFeatures(false)}>
+          <div className="relative" onMouseEnter={openFeatures} onMouseLeave={closeFeaturesSoon}>
           <button
             type="button"
             onClick={() => { setShowFeatures((v) => !v); setShowProtoDesktop(false); }}
-            onMouseEnter={() => { setShowFeatures(true); setShowProtoDesktop(false); }}
+            onMouseEnter={openFeatures}
             aria-expanded={showFeatures}
             aria-haspopup="true"
             className={cn(
@@ -268,11 +288,11 @@ export function Navbar() {
           </div>
 
           {/* Menu déroulant : nos prototypes */}
-          <div className="relative" onMouseLeave={() => setShowProtoDesktop(false)}>
+          <div className="relative" onMouseEnter={openProto} onMouseLeave={closeProtoSoon}>
             <button
               type="button"
               onClick={() => { setShowProtoDesktop((v) => !v); setShowFeatures(false); }}
-              onMouseEnter={() => { setShowProtoDesktop(true); setShowFeatures(false); }}
+              onMouseEnter={openProto}
               aria-expanded={showProtoDesktop}
               aria-haspopup="true"
               className={cn(
@@ -297,7 +317,7 @@ export function Navbar() {
                   transition={{ duration: 0.18 }}
                   role="menu"
                   aria-label="Nos prototypes"
-                  className="absolute left-0 top-full z-50 mt-3 w-72 overflow-hidden rounded-2xl border border-blue-500/10 bg-background/95 p-2 shadow-xl shadow-blue-950/10 backdrop-blur-md"
+                  className="absolute left-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-2xl border border-blue-500/10 bg-background/95 p-2 shadow-xl shadow-blue-950/10 backdrop-blur-md"
                 >
                   <ul className="grid gap-1">
                     {prototypes.map((p) => (
